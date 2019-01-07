@@ -4,7 +4,7 @@
 <head>
     <% include partials/head %>
     <style>
-        div{
+        .special-div{
             float: left;
             margin: 0px 6px;
         }
@@ -16,15 +16,14 @@
         }
     </style>
 </head>
-<body class="container">
+<body>
     <header>
         <% include partials/header %>
     </header>
     <main>
-            <p class="h1"><%= tagline %></p>
-          <% students.forEach(function(student) { %>
-            <% include ./student %>
-          <% }); %>
+        <div class="main-bg">
+            <p class=""><%= tagline %></p>
+        </div>
 
     </main>
     <footer>

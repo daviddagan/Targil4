@@ -1,24 +1,66 @@
 {
-	"branch" : [
-				{"name":"renanim",
-				"city":"ramat gan",
-				"flag":"false"},
-				{"name":"eshcolot",
-				"city":"tel-aviv",
-				"flag":"true"}
-				],
-	"user":{
-		"manager":
-		[{"name":"shlomi","branch":"renanim","age":"32","rank":"1"}
-		],
-		"worker":[{"name":"beni","username":"pepsipo","password":"1234":"salary":"3000"},
-			      {"name":"binyamin","username":"popsipo","password":"1234":"salary":"5000"}
-		],
-		"client":[{"name":"shalom","favorite":"eshcolot","phone":"0506979478"},
-				  {"name":"elchai","favorite":"eshcolot","phone":"0506979471"}
-		],
-		"supplier":[{"name":"pini","company":"yafhora","rating":"8.9","frequency":"30"}
-		],
-	"flower":[{"name":"narkis","color":"blue","img":"https://image.shutterstock.com/z/stock-photo-picture-still-life-blue-and-white-flowers-bouquet-hand-draw-oil-paints-on-a-canvas-100634317.jpg"
-			,"price":"18"}]
+  "branch": [
+    {
+      "name": "renanim",
+      "city": "ramat gan",
+      "flag": "false"
+    },
+    {
+      "name": "eshcolot",
+      "city": "tel-aviv",
+      "flag": "true"
+    }
+  ],
+  "user": {
+    "manager": [
+      {
+        "name": "shlomi",
+        "branch": "renanim",
+        "age": "32",
+        "rank": "1"
+      }
+    ],
+    "worker": [
+      {
+        "name": "beni",
+        "username": "pepsipo",
+        "password": "1234",
+        "salary": "3000"
+      },
+      {
+        "name": "binyamin",
+        "username": "popsipo",
+        "password": "1234",
+        "salary": "5000"
+      }
+    ],
+    "client": [
+      {
+        "name": "shalom",
+        "favorite": "eshcolot",
+        "phone": "0506979478"
+      },
+      {
+        "name": "elchai",
+        "favorite": "eshcolot",
+        "phone": "0506979471"
+      }
+    ],
+    "supplier": [
+      {
+        "name": "pini",
+        "company": "yafhora",
+        "rating": "8.9",
+        "frequency": "30"
+      }
+    ]
+  },
+  "flower": [
+    {
+      "name": "narkis",
+      "color": "blue",
+      "img": "/images/pink.jpg",
+      "price": "18"
+    }
+  ]
 }
