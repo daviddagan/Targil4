@@ -1,15 +1,21 @@
+body{
+    overflow:auto;
+}
 .top-navbar-t4{
     background-color: transparent;
 }
 
 .main-bg{
     background-color: #b8ffe7;
+    overflow: auto;
 }
 .footer-bg{
     background-color: #ffe9a5;
     width: 100%;
+    overflow: auto;
 }
 footer{
     margin:0;
     padding:0;
+    overflow: auto;
 }
