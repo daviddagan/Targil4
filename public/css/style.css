@@ -6,16 +6,44 @@ body{
 }
 
 .main-bg{
-    background-color: #b8ffe7;
-    overflow: auto;
+    /*background-color: #b8ffe7;*/
+    /*overflow: auto;*/
 }
 .footer-bg{
-    background-color: #ffe9a5;
+    background-color: #595c59;
     width: 100%;
-    overflow: auto;
+    color: #fff;
+    text-align: center;
+    /*overflow: auto;*/
 }
 footer{
     margin:0;
     padding:0;
-    overflow: auto;
+    /*overflow: auto;*/
+}
+.divclass{
+    background: white;
+    text-align: center;
+    direction: rtl;
+    margin: 0;
+
+}
+.disabled1{
+    text-decoration: line-through;
+}
+#popupbox{
+    top: 100px;
+    margin: 0;
+    margin-left: 40%;
+    margin-right: 40%;
+    margin-top: 50px;
+    padding-top: 10px;
+    width: 20%;
+    height: 150px;
+    position: absolute;
+    background: #FBFBF0;
+    border: solid #000000 2px;
+    z-index: 9;
+    font-family: arial;
+    visibility: hidden;
 }

@@ -4,30 +4,44 @@
 <head>
     <% include partials/head %>
     <style>
-        .special-div{
+        .special-div {
             float: left;
             margin: 0px 6px;
         }
-        .myheader{
+
+        .myheader {
             color: lightslategrey;
         }
-        .card{
+
+        .card {
             height: 170px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <% include partials/header %>
-    </header>
-    <main>
-        <div class="main-bg">
-            <p class=""><%= tagline %></p>
-        </div>
+<header class="fluid-container">
+    <% include partials/header %>
+</header>
+<main class="fluid-container">
+    <div class="main-bg">
+        <p class=""><%= tagline %></p>
+    </div>
 
-    </main>
-    <footer>
-        <% include partials/footer %>
-    </footer>
+
+</main>
+<footer class="fluid-container">
+    <% include partials/footer %>
+</footer>
+<div id="popupbox">
+    <form id="loginForm" name="login">
+        Username:
+        <input id="usernameF" type="text" name="username" size="14"/>
+        Password:
+        <input id="passwordF" type="password" name="password" size="14"/>
+        <button>login</button>
+    </form>
+    <br/>
+    <a href="javascript:login('hide');">close</a>
+</div>
 </body>
 </html>
