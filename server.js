@@ -7,7 +7,8 @@ let loginFlag = false,
     managerFlag = false;
 // set the view engine to ejs
 app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: false}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
@@ -46,11 +47,14 @@ app.post("/login", function (req, res) {
 app.get('/about', function (req, res) {
     res.render('about');
 });
-app.get('/reset', function (req,res){
+app.get('/reset', function (req, res){
     loginFlag = false;
     managerFlag = false;
     res.send("done!")
-})
+});
+app.get("/contact",function (req, res) {
+    res.render('contact');
+});
 app.listen(8080, function () {
     console.log('Listening on port 8080!');
 });

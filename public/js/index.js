@@ -27,30 +27,25 @@ $(".tab-item-t4").on('click', function () {
 
 });
 
-function catalogView() {
 
-
-}
-
-function branchView() {
-
-}
-
-function usersView() {
-
-}
 
 function aboutView() {
-    console.log("activated")
+    console.log("activated");
     $.ajax({
-        url: "about", success: function (result) {
+        url: "about",
+        success: function (result) {
             $(".main-bg").html(result);
         }
     });
 }
 
 function contactView() {
-
+    $.ajax({
+        url:"contact",
+        success: function(result){
+            $(".main-bg").html(result);
+        }
+    })
 }
 
 aboutView();
@@ -68,20 +63,56 @@ $(function () {
         let password = $("#passwordF").val();
         let username = $("#usernameF").val();
         let sendInfo = {username, password};
-        $.ajax({
-            url: "login",
-            type: "POST",
-            dataType: "json",
-            success: function (result) {
-                if(result.message ==="manager"){
-                    console.log(result,"logged");
-                    let tabs =$(".tab-item-t4");
-                    tabs.get(0).removeClass("disabled1");
-                    tabs.get(1).removeClass("disabled1");
-                    tabs.get(2).removeClass("disabled1");
-                }
-            },
-            data: sendInfo
+        // $.ajax({
+        //     url: "login",
+        //     type: "POST",
+        //     dataType: "json",
+        //     success: function (result) {
+        //         if(result.message ==="manager"){
+        //             console.log(result,"logged");
+        //             let tabs =$(".tab-item-t4");
+        //             $(tabs.get(0)).removeClass("disabled1");
+        //             $(tabs.get(1)).removeClass("disabled1");
+        //             $(tabs.get(2)).removeClass("disabled1");
+        //
+        //             let logout =$("#logoutB");
+        //             logout.removeClass("nonish");
+        //         }
+        //        else if(result.message ==="user"){
+        //             console.log(result,"logged");
+        //             let tabs =$(".tab-item-t4");
+        //             $(tabs.get(0)).removeClass("disabled1");
+        //             $(tabs.get(2)).removeClass("disabled1");
+        //         }
+        //     },
+        //     data: sendInfo
+        // });
+        fetch("login",{
+            method:"POST",
+            body: JSON.stringify(sendInfo),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function(response){
+                return response.json()
+            }).then(function(data){
+                console.log(data.message);
+            if(data.message ==="manager"){
+                console.log(result,"logged");
+                let tabs =$(".tab-item-t4");
+                $(tabs.get(0)).removeClass("disabled1");
+                $(tabs.get(1)).removeClass("disabled1");
+                $(tabs.get(2)).removeClass("disabled1");
+
+                let logout =$("#logoutB");
+                logout.removeClass("nonish");
+            }
+           else if(data.message ==="user"){
+                let tabs =$(".tab-item-t4");
+                $(tabs.get(0)).removeClass("disabled1");
+                $(tabs.get(2)).removeClass("disabled1");
+            }
         });
         login("hide");
         return false;
@@ -90,6 +121,10 @@ $(function () {
 
 function logout() {
     $.ajax({url:"/reset"})
+    let tabs =$(".tab-item-t4");
+    $(tabs.get(0)).addClass("disabled1");
+    $(tabs.get(1)).addClass("disabled1");
+    $(tabs.get(2)).addClass("disabled1");
 }
 // catalog
 // branch managment

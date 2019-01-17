@@ -1,37 +1,43 @@
-body{
-    overflow:auto;
+body {
+    overflow: auto;
 }
-.top-navbar-t4{
+
+.top-navbar-t4 {
     background-color: transparent;
 }
 
-.main-bg{
+.main-bg {
     /*background-color: #b8ffe7;*/
     /*overflow: auto;*/
 }
-.footer-bg{
+
+.footer-bg {
     background-color: #595c59;
     width: 100%;
     color: #fff;
     text-align: center;
     /*overflow: auto;*/
 }
-footer{
-    margin:0;
-    padding:0;
+
+footer {
+    margin: 0;
+    padding: 0;
     /*overflow: auto;*/
 }
-.divclass{
+
+.divclass {
     background: white;
     text-align: center;
     direction: rtl;
     margin: 0;
 
 }
-.disabled1{
+
+.disabled1 {
     text-decoration: line-through;
 }
-#popupbox{
+
+#popupbox {
     top: 100px;
     margin: 0;
     margin-left: 40%;
@@ -46,4 +52,32 @@ footer{
     z-index: 9;
     font-family: arial;
     visibility: hidden;
+}
+
+.gever {
+    border: #63f767 5px solid;
+    margin: 10px auto;
+    height: 40px;
+    width: 200px;
+
+}
+
+.nonish {
+    display: none;
+}
+
+.contact {
+    font-family: Arial;
+    font-size: 20px;
+    color: #2c7e91;
+    margin: 20px;
+    padding: 30px;
+    border: rgba(91, 125, 255, 0.46) 2px solid;
+    border-radius:20px;
+    text-align: center;
+}
+.contact:hover{
+    transition: 2s ease-out;
+    border-color: #2c7e91;
+    transform: scale(1.03);
 }

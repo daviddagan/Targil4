@@ -3,7 +3,7 @@
         <a class="navbar-brand" href="#">Navbar</a>
         <ul class="navbar-nav ml-auto">
             <li id="loginB" class="nav-item"><a href="javascript:login('show');">login</a></li>
-            <%if(loginFlag){%><li class ="nav-item" id="loginB"><a href="javascript:logout();">logout</a></li><%}%>
+            <li class ="nav-item <%if(!loginFlag){%>nonish<%}%>" id="logoutB"><a href="javascript:logout();">logout</a></li>
         </ul>
     </a>
 </nav>
