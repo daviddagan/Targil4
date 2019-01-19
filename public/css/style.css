@@ -81,3 +81,12 @@ footer {
     border-color: #2c7e91;
     transform: scale(1.03);
 }
+.flower img{
+    width: 100%;
+    /*height: 200px;*/
+
+}
+.flower{
+    margin-top: 20px;
+
+}

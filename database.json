@@ -64,6 +64,26 @@
       "color": "blue",
       "img": "/images/pink.jpg",
       "price": "18"
+    },{
+      "name": "chamania",
+      "color": "blue",
+      "img": "/images/glasses.jpg",
+      "price": "200"
+    },{
+      "name": "vered",
+      "color": "blue",
+      "img": "/images/vered.jpg",
+      "price": "3"
+    },{
+      "name": "rakefet",
+      "color": "blue",
+      "img": "/images/yellow.jpg",
+      "price": "25"
+    },{
+      "name": "zarkon",
+      "color": "blue",
+      "img": "/images/purple.jpg",
+      "price": "10"
     }
   ]
 }

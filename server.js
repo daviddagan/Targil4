@@ -55,6 +55,9 @@ app.get('/reset', function (req, res){
 app.get("/contact",function (req, res) {
     res.render('contact');
 });
+app.get("/flowers",function (req,res) {
+    res.render("flowers",{flower:db.flower});
+});
 app.listen(8080, function () {
     console.log('Listening on port 8080!');
 });
