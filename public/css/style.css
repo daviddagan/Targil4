@@ -81,3 +81,14 @@ footer {
     border-color: #2c7e91;
     transform: scale(1.03);
 }
+.top{
+  margin-top: auto ;
+}
+.right{
+  margin-left: 5%;
+}
+.add{
+  margin-left: 45% ;
+  margin-top: 2%;
+  padding: 10px 30px;
+}

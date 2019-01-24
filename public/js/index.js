@@ -30,7 +30,6 @@ $(".tab-item-t4").on('click', function () {
 
 
 function aboutView() {
-    console.log("activated");
     $.ajax({
         url: "about",
         success: function (result) {
@@ -38,7 +37,7 @@ function aboutView() {
         }
     });
 }
-
+aboutView();
 function contactView() {
     $.ajax({
         url:"contact",
@@ -48,7 +47,6 @@ function contactView() {
     })
 }
 
-aboutView();
 
 function login(showhide) {
     if (showhide == "show") {
@@ -63,57 +61,57 @@ $(function () {
         let password = $("#passwordF").val();
         let username = $("#usernameF").val();
         let sendInfo = {username, password};
-        // $.ajax({
-        //     url: "login",
-        //     type: "POST",
-        //     dataType: "json",
-        //     success: function (result) {
-        //         if(result.message ==="manager"){
-        //             console.log(result,"logged");
-        //             let tabs =$(".tab-item-t4");
-        //             $(tabs.get(0)).removeClass("disabled1");
-        //             $(tabs.get(1)).removeClass("disabled1");
-        //             $(tabs.get(2)).removeClass("disabled1");
-        //
-        //             let logout =$("#logoutB");
-        //             logout.removeClass("nonish");
-        //         }
-        //        else if(result.message ==="user"){
-        //             console.log(result,"logged");
-        //             let tabs =$(".tab-item-t4");
-        //             $(tabs.get(0)).removeClass("disabled1");
-        //             $(tabs.get(2)).removeClass("disabled1");
-        //         }
-        //     },
-        //     data: sendInfo
-        // });
-        fetch("login",{
-            method:"POST",
-            body: JSON.stringify(sendInfo),
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(function(response){
-                return response.json()
-            }).then(function(data){
-                console.log(data.message);
-            if(data.message ==="manager"){
-                console.log(result,"logged");
-                let tabs =$(".tab-item-t4");
-                $(tabs.get(0)).removeClass("disabled1");
-                $(tabs.get(1)).removeClass("disabled1");
-                $(tabs.get(2)).removeClass("disabled1");
+         $.ajax({
+             url: "login",
+             type: "POST",
+             dataType: "json",
+             success: function (result) {
+                 if(result.message ==="manager"){
+                     console.log(result,"logged");
+                     let tabs =$(".tab-item-t4");
+                     $(tabs.get(0)).removeClass("disabled1");
+                     $(tabs.get(1)).removeClass("disabled1");
+                     $(tabs.get(2)).removeClass("disabled1");
 
-                let logout =$("#logoutB");
-                logout.removeClass("nonish");
-            }
-           else if(data.message ==="user"){
-                let tabs =$(".tab-item-t4");
-                $(tabs.get(0)).removeClass("disabled1");
-                $(tabs.get(2)).removeClass("disabled1");
-            }
-        });
+                     let logout =$("#logoutB");
+                     logout.removeClass("nonish");
+                 }
+                else if(result.message ==="user"){
+                     console.log(result,"logged");
+                     let tabs =$(".tab-item-t4");
+                     $(tabs.get(0)).removeClass("disabled1");
+                     $(tabs.get(2)).removeClass("disabled1");
+                 }
+             },
+             data: sendInfo
+         });
+        // fetch("login",{
+        //     method:"POST",
+        //     body: JSON.stringify(sendInfo),
+        //     headers:{
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        //     .then(function(response){
+        //         return response.json()
+        //     }).then(function(data){
+        //         console.log(data.message);
+        //     if(data.message ==="manager"){
+        //         console.log(result,"logged");
+        //         let tabs =$(".tab-item-t4");
+        //         $(tabs.get(0)).removeClass("disabled1");
+        //         $(tabs.get(1)).removeClass("disabled1");
+        //         $(tabs.get(2)).removeClass("disabled1");
+        //
+        //         let logout =$("#logoutB");
+        //         logout.removeClass("nonish");
+        //     }
+        //    else if(data.message ==="user"){
+        //         let tabs =$(".tab-item-t4");
+        //         $(tabs.get(0)).removeClass("disabled1");
+        //         $(tabs.get(2)).removeClass("disabled1");
+        //     }
+        // });
         login("hide");
         return false;
     });
