@@ -16,12 +16,16 @@ body {
     width: 100%;
     color: #fff;
     text-align: center;
+    margin-bottom: 0%;
     /*overflow: auto;*/
 }
 
 footer {
+    position: fixed;
     margin: 0;
     padding: 0;
+    bottom: 0;
+    width: 100%;
     /*overflow: auto;*/
 }
 
@@ -31,6 +35,11 @@ footer {
     direction: rtl;
     margin: 0;
 
+}
+
+.divrtl {
+    direction: rtl;
+    text-align: right;
 }
 
 .disabled1 {
@@ -65,7 +74,6 @@ footer {
 .nonish {
     display: none;
 }
-
 .contact {
     font-family: Arial;
     font-size: 20px;
@@ -81,14 +89,43 @@ footer {
     border-color: #2c7e91;
     transform: scale(1.03);
 }
+.flower img{
+    width: 100%;
+    /*height: 200px;*/
+
+}
+.flower{
+    margin-top: 20px;
+}
+.card-columns{
+    direction: rtl;
+}
+.card{
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+.flower-title{
+    text-align: center;
+    margin-bottom: 40px;
+}
+.flower-title:after{
+    content: '';
+    border: #506d63 2px solid;
+    bottom: 24%;
+    left: 30.5%;
+    position: absolute;
+    width: 100px;
+}
 .top{
-  margin-top: auto ;
+    margin-top: auto ;
 }
 .right{
-  margin-left: 5%;
+    margin-left: 5%;
 }
 .add{
-  margin-left: 45% ;
-  margin-top: 2%;
-  padding: 10px 30px;
+    margin-left: 45% ;
+    margin-top: 2%;
+    padding: 10px 30px;
 }

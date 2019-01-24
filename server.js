@@ -3,8 +3,29 @@ let express = require('express');
 let app = express();
 let bodyParser = require("body-parser");
 let db = require("./database.json");
+db.user.manager.map(function(obj){
+obj.role ="manager";
+    return obj;
+});
+db.user.client.map(function(obj){
+obj.role ="client";
+    return obj;
+});
+db.user.worker.map(function(obj){
+obj.role ="worker";
+    return obj;
+});
 let loginFlag = false,
     managerFlag = false;
+function getDetailsById(id){
+    let users = [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client);
+    let tempUser;
+    users.forEach(function(user){
+        if(id===user.name)
+        tempUser = user;
+    })
+    return tempUser;
+}
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: false}));
@@ -36,7 +57,7 @@ app.post("/branchUpd/:id", function (req, res) {
       db.branch[i].city=city;
 
     }
-   
+
   }
   res.send({});
   }
@@ -108,10 +129,27 @@ app.get('/reset', function (req, res){
 app.get("/contact",function (req, res) {
     res.render('contact');
 });
+app.get("/users",function (req, res) {
+    res.render('users',{db});
+});
+app.get("/users/get/:id",function(req,res){
+    var userDetails = {};
+    userDetails = getDetailsById(req.params.id);
+    console.log("user details"+userDetails);
+    res.send(userDetails);
+})
+
+app.get("/flowers",function (req,res) {
+    res.render("flowers",{flower:db.flower});
+});
+app.use("*", function(req, res) {
+    res.render("index",{tagline:"",loginFlag,managerFlag});
+});
 app.get("/branch",function (req, res) {
   let branch = db.branch;
     res.render('branch',{branches : branch });
 });
 app.listen(8080, function () {
     console.log('Listening on port 8080!');
+    console.log("http:\\\\localhost:"+8080);
 });
