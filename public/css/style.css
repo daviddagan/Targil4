@@ -16,12 +16,16 @@ body {
     width: 100%;
     color: #fff;
     text-align: center;
+    margin-bottom: 0%;
     /*overflow: auto;*/
 }
 
 footer {
+    position: fixed;
     margin: 0;
     padding: 0;
+    bottom: 0;
+    width: 100%;
     /*overflow: auto;*/
 }
 
@@ -31,6 +35,11 @@ footer {
     direction: rtl;
     margin: 0;
 
+}
+
+.divrtl {
+    direction: rtl;
+    text-align: right;
 }
 
 .disabled1 {
@@ -66,18 +75,3 @@ footer {
     display: none;
 }
 
-.contact {
-    font-family: Arial;
-    font-size: 20px;
-    color: #2c7e91;
-    margin: 20px;
-    padding: 30px;
-    border: rgba(91, 125, 255, 0.46) 2px solid;
-    border-radius:20px;
-    text-align: center;
-}
-.contact:hover{
-    transition: 2s ease-out;
-    border-color: #2c7e91;
-    transform: scale(1.03);
-}

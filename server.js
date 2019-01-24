@@ -3,8 +3,29 @@ let express = require('express');
 let app = express();
 let bodyParser = require("body-parser");
 let db = require("./database.json");
+db.user.manager.map(function(obj){
+obj.role ="manager";
+    return obj;
+});
+db.user.client.map(function(obj){
+obj.role ="client";
+    return obj;
+});
+db.user.worker.map(function(obj){
+obj.role ="worker";
+    return obj;
+});
 let loginFlag = false,
     managerFlag = false;
+function getDetailsById(id){
+    let users = [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client);
+    let tempUser;
+    users.forEach(function(user){
+        if(id===user.name)
+        tempUser = user;
+    })
+    return tempUser;
+}
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: false}));
@@ -34,7 +55,6 @@ app.post("/login", function (req, res) {
     users.forEach(function (item) {
         if (item.name === username && item.password === password) {
             res.send(JSON.stringify({"message":"user"}));
-            console.log("user");
             loginFlag = true;
             flag = true;
         }
@@ -55,6 +75,16 @@ app.get('/reset', function (req, res){
 app.get("/contact",function (req, res) {
     res.render('contact');
 });
+
+app.get("/users",function (req, res) {
+    res.render('users',{db});
+});
+app.get("/users/get/:id",function(req,res){
+    var userDetails = {};
+    userDetails = getDetailsById(req.params.id); 
+    console.log("user details"+userDetails);   
+    res.send(userDetails);
+})
 app.listen(8080, function () {
     console.log('Listening on port 8080!');
 });
