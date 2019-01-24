@@ -85,6 +85,10 @@ app.get("/users/get/:id",function(req,res){
     console.log("user details"+userDetails);   
     res.send(userDetails);
 })
+
+app.get("/flowers",function (req,res) {
+    res.render("flowers",{flower:db.flower});
+});
 app.listen(8080, function () {
     console.log('Listening on port 8080!');
 });

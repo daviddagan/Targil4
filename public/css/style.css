@@ -74,4 +74,27 @@ footer {
 .nonish {
     display: none;
 }
+.contact {
+    font-family: Arial;
+    font-size: 20px;
+    color: #2c7e91;
+    margin: 20px;
+    padding: 30px;
+    border: rgba(91, 125, 255, 0.46) 2px solid;
+    border-radius:20px;
+    text-align: center;
+}
+.contact:hover{
+    transition: 2s ease-out;
+    border-color: #2c7e91;
+    transform: scale(1.03);
+}
+.flower img{
+    width: 100%;
+    /*height: 200px;*/
 
+}
+.flower{
+    margin-top: 20px;
+
+}
