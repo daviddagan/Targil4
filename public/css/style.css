@@ -96,5 +96,25 @@ footer {
 }
 .flower{
     margin-top: 20px;
+}
+.card-columns{
+    direction: rtl;
+}
+.card{
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
 
+}
+.flower-title{
+    text-align: center;
+    margin-bottom: 40px;
+}
+.flower-title:after{
+    content: '';
+    border: #506d63 2px solid;
+    bottom: 24%;
+    left: 30.5%;
+    position: absolute;
+    width: 100px;
 }

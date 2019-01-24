@@ -1,15 +1,32 @@
 <div class="container">
-    <div class ="row">
-        <%for(var i = 0;i<flower.length;i++){%>
-        <div class="col-sm-4 flower">
-            <div class="img-thumbnail">
-                <h1><%=flower[i].name%></h1>
-                <img src="<%=flower[i].img%>" class="" alt="">
-                <p>price : <%=flower[i].price%></p>
+    <div class="row">
+        <div class="col-12">
+            <h2 class="display-4 flower-title">our flowers catalog</h2>
+        </div>
+    </div>
+
+    <div class="card-columns">
+        <% for(var i = 0;i < flower.length;i++){ %>
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top center" src="<%= flower[i].img %>" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title"><%= flower[i].name %></h5>
+                <!--<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>-->
+                <p class="card-text">
+                    <small class="text-muted">price : <%= flower[i].price %></small>
+                </p>
             </div>
         </div>
 
-        <%}%>
-        </ul>
+
+        <!--<div class="col-sm-4 flower">-->
+        <!--<div class="img-thumbnail">-->
+        <!--<h1></h1>-->
+        <!--<img src="" class="" alt="">-->
+        <!--<p></p>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <% } %>
     </div>
 </div>

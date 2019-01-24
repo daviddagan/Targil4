@@ -1,3 +1,6 @@
+let usernameLocal = "";
+
+
 $(".tab-item-t4").on('click', function () {
     let $this = $(this);
     if ($this.hasClass("disabled1")) return;
@@ -9,24 +12,33 @@ $(".tab-item-t4").on('click', function () {
             catalogView();
             break;
         case 1:
+            returnBackgroundColor();
             branchView();
             break;
         case 2:
+            returnBackgroundColor();
             usersView();
             break;
         case 3:
+            returnBackgroundColor();
             aboutView();
             break;
         case 4:
+            returnBackgroundColor();
             contactView();
             break;
         default:
+            returnBackgroundColor();
             break;
 
     }
 
 });
-
+function returnBackgroundColor(){
+    $(".main-bg").stop().animate({backgroundColor:"#fff"},500,function(){
+        $(".main-bg").css({backgroundColor:"#fff"});
+    });
+}
 
 
 function aboutView() {
@@ -34,6 +46,7 @@ function aboutView() {
     $.ajax({
         url: "about",
         success: function (result) {
+            window.location.hash = "about";
             $(".main-bg").html(result);
         }
     });
@@ -48,10 +61,6 @@ function contactView() {
     })
 }
 
-
-
-
-aboutView();
 
 function login(showhide) {
     if (showhide == "show") {
@@ -72,31 +81,33 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function (result) {
+                let tabs =$(".tab-item-t4");
+                usernameLocal =username;//TODO: after git merging add to all http bodies the username
                 if(result.message ==="manager"){
                     console.log(result,"logged");
-                    let tabs =$(".tab-item-t4");
-                    $(tabs.get(0)).removeClass("disabled1");
                     $(tabs.get(1)).removeClass("disabled1");
-                    $(tabs.get(2)).removeClass("disabled1");
-        
-                    let logout =$("#logoutB");
-                    logout.removeClass("nonish");
+
                 }
                else if(result.message ==="user"){
                     console.log(result,"logged");
-                    let tabs =$(".tab-item-t4");
+
+
+                }
+                if(result.message!=="not user"){
                     $(tabs.get(0)).removeClass("disabled1");
                     $(tabs.get(2)).removeClass("disabled1");
+                    let logout =$("#logoutB");
+                    logout.removeClass("nonish");
                 }
+
             },
             data: sendInfo
         });
+        // console.log(password,username);
         // fetch("login",{
-        //     method:"POST",
-        //     body: JSON.stringify(sendInfo),
-        //     headers:{
-        //         'Content-Type': 'application/json'
-        //     }
+        //     method: 'post',
+        //     headers: {'Content-Type': 'application/json'},
+        //     body: JSON.stringify(sendInfo)
         // })
         //     .then(function(response){
         //         return response.json()
@@ -108,7 +119,7 @@ $(function () {
         //         $(tabs.get(0)).removeClass("disabled1");
         //         $(tabs.get(1)).removeClass("disabled1");
         //         $(tabs.get(2)).removeClass("disabled1");
-
+        //
         //         let logout =$("#logoutB");
         //         logout.removeClass("nonish");
         //     }
@@ -123,12 +134,33 @@ $(function () {
 });
 
 function logout() {
-    $.ajax({url:"/reset"})
+    $.ajax({url:"reset"})
     let tabs =$(".tab-item-t4");
     $(tabs.get(0)).addClass("disabled1");
     $(tabs.get(1)).addClass("disabled1");
     $(tabs.get(2)).addClass("disabled1");
+    location.reload();
 }
+console.log(window.location.hash)
+$(document).ready(function(){
+    if(window.location.hash){
+        switch(window.location.hash){
+            case "#about":
+                aboutView();
+                break;
+            case "#catalog":
+                console.log("catalog reload?")
+                catalogView();
+                break;
+            default:
+                aboutView();
+        }
+    }else{
+        aboutView();
+    }
+})
+
+
 // catalog
 // branch managment
 // user managment
