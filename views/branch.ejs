@@ -1,19 +1,23 @@
 <div>
-<div class="list-group branch">
-  <% branches.forEach(function(branch) { %>
-    <% if (branch.active == 'true') { //console.log(branch);%>
-  <div class="container list-branch">
-  <a href="#" class="list-group-item">
-      <h4 class="list-group-item-heading top">name: <span class="ourName"><%=branch.name %></span></h4>
-      <p class="list-group-item-text top">city: <span class="ourName"><%=branch.city %></span></p>
-      <button  class="btn btn-light btn-upd-b">update</button>
-      <button  class="btn btn-light btn-del-b">delete</button>
-      </a>
-  </div>
-  <% }}); %>
-
-</div>
-<button class="btn btn-primary btn-add-b add">
-add branch
-</button>
+    <div class="list-group branch">
+        <div class="container list-branch">
+            <div class="row">
+                <% branches.forEach(function(branch) { %>
+                    <% if (branch.active == 'true') { //console.log(branch); %>
+                    <div class="col-md-6 card_own">
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading top">name: <span class="ourName"><%= branch.name %></span>
+                            </h4>
+                            <p class="list-group-item-text top">city: <span class="ourName"><%= branch.city %></span></p>
+                            <button class="btn btn-light btn-upd-b">update</button>
+                            <button class="btn btn-light btn-del-b">delete</button>
+                        </a>
+                    </div>
+                <% }}); %>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary btn-add-b add">
+        add branch
+    </button>
 </div>

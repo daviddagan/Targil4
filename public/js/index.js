@@ -150,10 +150,10 @@ $(document).ready(function(){
                 catalogView();
                 break;
             default:
-                aboutView();
+                // aboutView();
         }
     }else{
-        aboutView();
+        // aboutView();
     }
 })
 

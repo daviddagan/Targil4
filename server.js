@@ -142,13 +142,15 @@ app.get("/users/get/:id",function(req,res){
 app.get("/flowers",function (req,res) {
     res.render("flowers",{flower:db.flower});
 });
-app.use("*", function(req, res) {
-    res.render("index",{tagline:"",loginFlag,managerFlag});
-});
 app.get("/branch",function (req, res) {
+    console.log("/branch");
   let branch = db.branch;
     res.render('branch',{branches : branch });
 });
+app.use("*", function(req, res) {
+    res.render("index",{tagline:"",loginFlag,managerFlag});
+});
+
 app.listen(8080, function () {
     console.log('Listening on port 8080!');
     console.log("http:\\\\localhost:"+8080);

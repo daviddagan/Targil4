@@ -2,6 +2,7 @@ function branchView() {
   $.ajax({
     url : "branch",
     success: function(result){
+        console.log("result",result);
       $(".main-bg").html(result);
 
     }
