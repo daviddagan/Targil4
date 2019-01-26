@@ -39,25 +39,26 @@ function returnBackgroundColor(){
 
 
 function aboutView() {
-    console.log("activated");
-    $.ajax({
-        url: "about",
-        success: function (result) {
-            window.location.hash = "about";
-            $(".main-bg").html(result);
-        }
-    });
+    queryAndUpdate("about");
 }
 
 function contactView() {
+   queryAndUpdate("contact");
+}
+function queryAndUpdate(url,cb){
+    let mainBg = $(".main-bg");
+    progressAnimation.start(mainBg);
     $.ajax({
-        url:"contact",
+        url:url,
         success: function(result){
-            $(".main-bg").html(result);
+            window.location.hash = url;
+            progressAnimation.stop(mainBg,function () {
+                mainBg.html(result);
+                cb();
+            })
         }
     })
 }
-
 
 function login(showhide) {
     if (showhide == "show") {
@@ -85,10 +86,8 @@ $(function () {
                     $(tabs.get(1)).removeClass("disabled1");
 
                 }
-               else if(result.message ==="user"){
+                else if(result.message ==="user"){
                     console.log(result,"logged");
-
-
                 }
                 if(result.message!=="not user"){
                     $(tabs.get(0)).removeClass("disabled1");
@@ -141,25 +140,41 @@ function logout() {
 console.log(window.location.hash)
 $(document).ready(function(){
     if(window.location.hash){
+        let tabs = $(".tab-item-t4");
         switch(window.location.hash){
+            case "#catalog":
+                tabs.removeClass("active");
+                $(tabs[0]).addClass("active");
+                catalogView();
+                break;
+            case "#branch":
+                tabs.removeClass("active");
+                $(tabs[1]).addClass("active");
+                branchView();
+                break;
+            case "#users":
+                tabs.removeClass("active");
+                $(tabs[2]).addClass("active");
+                usersView();
+                break;
             case "#about":
                 aboutView();
                 break;
-            case "#catalog":
-                console.log("catalog reload?")
-                catalogView();
+            case "#contact":
+                tabs.removeClass("active");
+                $(tabs[4]).addClass("active");
+                contactView();
                 break;
             default:
-                // aboutView();
+                aboutView();
         }
     }else{
-        // aboutView();
+        aboutView();
     }
-})
-
-
+});
 // catalog
 // branch managment
 // user managment
 // about
 // contact
+

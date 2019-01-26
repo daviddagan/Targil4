@@ -1,12 +1,5 @@
 function branchView() {
-  $.ajax({
-    url : "branch",
-    success: function(result){
-        console.log("result",result);
-      $(".main-bg").html(result);
-
-    }
-  })
+    queryAndUpdate("branch");
 }//todo put all things in succses!
 function hideAllDelButtons(){
   var items = $(".btn-del-b");
@@ -42,7 +35,7 @@ function press(event){
        hideAllDelButtons();
      }
      else if ($this.hasClass("btn-del-b") === true){
-       
+
        idB= $this.parent().find("h4").text().replace("name: ",'');
     if(idB !== ''){
      $.ajax({
@@ -59,7 +52,7 @@ function press(event){
       item.remove();
      }
      else if ($this.hasClass("btn-sav-b") === true){
-      
+
         var $this = $(this);
         var item = $this.parent().parent();
          var name= $this.parent().find("h4").find("input").val();
@@ -74,13 +67,13 @@ function press(event){
                 var p = item.parent();
                   item.before('<div class="container list-branch"><a href="#" class="list-group-item"><h4 class="list-group-item-heading top">name: '+ $this.parent().find("h4").find("input").val()+'</h4><p class="list-group-item-text top">city: '+$this.parent().find("p").find("input").val()+'</p><button  class="btn btn-light btn-upd-b">update</button><button  class="btn btn-light btn-del-b">delete</button></a></div>');
                  // p.append('<div class="container list-branch"><a href="#" class="list-group-item"><h4 class="list-group-item-heading top">name: '+ $this.parent().find("h4").find("input").val()+'</h4><p class="list-group-item-text top">city: '+$this.parent().find("p").find("input").val()+'</p><button  class="btn btn-light btn-upd-b">update</button><button  class="btn btn-light btn-del-b">delete</button></a></div>');
-                  item.remove();              
+                  item.remove();
                   showAllUpdateButtons();
                   showAllDelButtons();
                   },
                data: sendInfoB
       });
-      
+
       }
 }
      else if ($this.hasClass("btn-add-b") === true ){
@@ -98,28 +91,28 @@ function press(event){
          var name= $this.parent().find("h4").find("input").val();
          var city= $this.parent().find("p").find("input").val();
          if(name !== '' && city !==''){
-          
+
            let sendInfoB = {name, city};
            $.ajax({
               url : "branchAdd",
                type: "POST",
                dataType: "json",
-               success: function (result) { 
+               success: function (result) {
                  console.log("here!");
                 item.hide();
                 item.before('<div class="container list-branch"><a href="#" class="list-group-item"><h4 class="list-group-item-heading top">name: '+ $this.parent().find("h4").find("input").val()+'</h4><p class="list-group-item-text top">city: '+$this.parent().find("p").find("input").val()+'</p><button  class="btn btn-light btn-upd-b">update</button><button  class="btn btn-light btn-del-b">delete</button></a></div>');
                //p.append('<div class="container list-branch"><a href="#" class="list-group-item"><h4 class="list-group-item-heading top">name: '+ $this.parent().find("h4").find("input").val()+'</h4><p class="list-group-item-text top">city: '+$this.parent().find("p").find("input").val()+'</p><button  class="btn btn-light btn-upd-b">update</button><button  class="btn btn-light btn-del-b">delete</button></a></div>');
-               item.remove()  
+               item.remove()
                addButtonB.show();
               },complete:function(){
-               
+
               },
               error:function(xhr,status,err){
                     console.log(err);
               },
                data: sendInfoB
       });
-           
+
          }
    }
 }

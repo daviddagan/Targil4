@@ -1,10 +1,5 @@
 function usersView() {
-    $.ajax({
-        url:"users",
-        success: function(result){
-            $(".main-bg").html(result);
-        }
-    })
+    queryAndUpdate("users");
 }
 
 $(".main-bg").on('click',".editUserButton", function () {
