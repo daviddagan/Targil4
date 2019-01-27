@@ -2,19 +2,7 @@ let path = require('path');
 let express = require('express');
 let app = express();
 let bodyParser = require("body-parser");
-let db = require("./database.json");
-db.user.manager.map(function(obj){
-obj.role ="manager";
-    return obj;
-});
-db.user.client.map(function(obj){
-obj.role ="client";
-    return obj;
-});
-db.user.worker.map(function(obj){
-obj.role ="worker";
-    return obj;
-});
+let db = require("./model/model.js");
 let loginFlag = false,
     managerFlag = false;
 function getDetailsById(id){
@@ -23,7 +11,7 @@ function getDetailsById(id){
     users.forEach(function(user){
         if(id===user.name)
         tempUser = user;
-    })
+    });
     return tempUser;
 }
 // set the view engine to ejs

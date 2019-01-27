@@ -8,7 +8,9 @@ let progressAnimation = {
     stop:function($div,cb){
         $div.find(".lds-circle").fadeOut(200,function(){
             $(this).remove();
-            cb();
+            if (cb){
+                cb();
+            }
         });
     }
 };

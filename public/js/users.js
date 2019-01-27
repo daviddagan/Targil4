@@ -17,7 +17,6 @@ $(".main-bg").on('click',".editUserButton", function () {
                 workerUpdate(user);
             else 
                 clientUpdate(user);
-
             optionChanged()
             
         }

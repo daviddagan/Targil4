@@ -172,3 +172,6 @@ footer {
         transform: rotateY(3600deg);
     }
 }
+.row{
+    width: 100%;
+}
