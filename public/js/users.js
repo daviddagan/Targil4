@@ -18,7 +18,6 @@ $(".main-bg").on('click',".editUserButton", function () {
             else 
                 clientUpdate(user);
             optionChanged()
-            
         }
     })
     
