@@ -1,14 +1,12 @@
-<div class="row style-users"  style="padding: 20px 20px;margin-bottom: 2rem;">
-    <div class="col-sm-6 "style="padding: 5px 20px;">
-        
-           <% 
+<div class="row style-users "  style="padding: 20px 20px;margin-bottom: 2rem;">
+    <div class="col-sm-6 list-users-container"style="padding: 5px 20px;">
+        <ul class="list-group">
+        <%
             let users = [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client);
-            %>
-          
-           <%  users.forEach(function(user) { %>
+            users.forEach(function(user) { %>
             <% include ./user %>
-          
-          <%}); %>
+            <%}); %>
+        </ul>
         
     </div>
     <div class="col-sm-6 divrtl d-flex justify-content-between edit-form-conatiner" style="background: ghostwhite" >
@@ -28,7 +26,7 @@
                 </select>
               </div>
 
-              <div class="row">
+              <div class="row ">
                   <div class="col-md-6 col-sm-6">
                       <div class="form-group">
                           <label id="L1"><b>שם</b></label>
@@ -68,7 +66,7 @@
 
       <!-- left side -->
       <div style="padding-top: 10px">
-          <button type="button" class="btn btn-success">רענן</button>
+          <button type="button" class="btn btn-success refresh-button">רענן</button>
       </div>
   </div>
 </div>

@@ -175,3 +175,6 @@ footer {
 .row{
     width: 100%;
 }
+.list-users-container{
+    border-radius: 20px;
+}

@@ -3,13 +3,15 @@ let userClickedName;
 function usersView() {
     queryAndUpdate("users");
 }
-
+function markContainer($this){
+    $(".list-group-item").css({"border-color": "rgba(0,0,0,.125)"});
+    $this.parent().parent().css({"border-color": "green"});
+}
 $(".main-bg").on('click', ".editUserButton", function () {
     let $this = $(this);
     let index = $(".editUserButton").index($this);
     var username = $this.parent().parent().find(".editUserName");
-    $(".list-group-item").css({"border-color": "rgba(0,0,0,.125)"});
-    $this.parent().parent().css({"border-color": "green"});
+    markContainer($this);
     $.ajax({
         url: "users/get/" + username.text(),
         success: function (user) {
@@ -23,10 +25,59 @@ $(".main-bg").on('click', ".editUserButton", function () {
             optionChanged()
         }
     })
-
-
 })
 
+$(".main-bg").on("click",".deleteUserButton",function (e) {
+    let $this=$(this);
+    markContainer($this);
+    var username = $this.parent().parent().find(".editUserName");
+    let container = $this.parent().parent();
+    progressAnimation.start(container);
+    $.ajax({
+        url:"userDel/"+username.text(),
+        success:function (result) {
+            progressAnimation.stop(container,function () {
+                container.slideUp(500,function(){
+                    container.remove();
+                })
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+            progressAnimation.stop(container, function () {
+                $(".main-bg").prepend("<p>there was an error on the server....</p>")
+            })
+        }
+    })
+});
+$(".main-bg").on('click','.refresh-button',function (e) {
+    let $this = $(this);
+    let container = $(".list-users-container");
+    $.ajax({
+        url:"getUsers",
+        success:function (result) {
+            progressAnimation.stop(container,function () {
+                result.forEach(function (user) {
+                    let userView = '<li class="list-group-item d-flex justify-content-between align-items-center" style=" margin-bottom: 5px">\n' +
+                        '<h5>+user.role+<span class="editUserName">+user.name+</span></h5>' +
+                        '<div>' +
+                        '<button type="button" class="btn btn-outline-success btn-pill editUserButton">ערוך</button>' +
+                        '<button type="button" class="btn btn-danger deleteUserButton">הסר</button>' +
+                        '</div>' +
+                        '</li>'
+                    let userJQOj = $.parseHTML(userView);
+                    container.find(".list-group").append(userJQOj);
+                })
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+            progressAnimation.stop(container, function () {
+                $(".main-bg").prepend("<p>there was an error on the server....</p>")
+            })
+        }
+    })
+})
 function managerUpdate(user) {
     $("#selectUser").val(user.role);
     $("#one").val(user.name);
@@ -126,6 +177,6 @@ $(".main-bg").on('submit', "#formUser", function () {
         }
     });
     return false;
-})
+});
 
  
