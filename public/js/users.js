@@ -34,6 +34,7 @@ $(".main-bg").on("click",".deleteUserButton",function (e) {
     let container = $this.parent().parent();
     progressAnimation.start(container);
     $.ajax({
+
         url:"userDel/"+username.text(),
         success:function (result) {
             progressAnimation.stop(container,function () {
@@ -136,8 +137,9 @@ function optionChanged() {
 $(".main-bg").on('submit', "#formUser", function () {
     let user = {};
     let role = $("#selectUser").val();
+    console.log(role);
     if (role === "manager") {
-        user.role = $("#selectUser").val();
+        user.role = role;
         user.name = $("#one").val();
         user.password = $("#two").val();
         user.branch = $("#three").val();
@@ -145,27 +147,30 @@ $(".main-bg").on('submit', "#formUser", function () {
         user.rank = $("#five").val();
     }
     else if (role === "worker") {
-        user.role = $("#selectUser").val();
+        user.role = "worker";
         user.name = $("#one").val();
         user.favorite = $("#two").val();
         user.password = $("#three").val();
         user.phone = $("#four").val();
     }
     else if (role === "client") {
-        user.role = $("#selectUser").val();
+        user.role = "client";
         user.name = $("#one").val();
         user.favorite = $("#two").val();
         user.password = $("#three").val();
         user.phone = $("#four").val();
     }
+    console.log(user);
     let container = $(".edit-form-conatiner");
-    progressAnimation.start(container)
+    progressAnimation.start(container);
     $.ajax({
         url: "userUpd/" + userClickedName,
-        body: user,
+        method:"post",
+        data: user,
         success: function (result) {
             progressAnimation.stop(container, function () {
                 $("#formUser")[0].reset();
+                console.log()
                 userClickedName = '';
             })
         },
