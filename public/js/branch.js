@@ -1,6 +1,6 @@
 function branchView() {
     queryAndUpdate("branch");
-}//todo put all things in succses!
+}
 function hideAllDelButtons() {
     var items = $(".btn-del-b");
     items.hide();
@@ -111,7 +111,6 @@ function press(event) {
                 type: "POST",
                 dataType: "json",
                 success: function (result) {
-                    console.log("here!");
                     item.hide();
                     item.before('<div class="col-md-6 card_own"><a href="#" class="list-group-item"><h4 class="list-group-item-heading top">name: ' + $this.parent().find("h4").find("input").val() + '</h4><p class="list-group-item-text top">city: ' + $this.parent().find("p").find("input").val() + '</p><button  class="btn btn-light btn-upd-b">update</button><button  class="btn btn-light btn-del-b">delete</button></a></div>');
                     //p.append('<div class="container list-branch"><a href="#" class="list-group-item"><h4 class="list-group-item-heading top">name: '+ $this.parent().find("h4").find("input").val()+'</h4><p class="list-group-item-text top">city: '+$this.parent().find("p").find("input").val()+'</p><button  class="btn btn-light btn-upd-b">update</button><button  class="btn btn-light btn-del-b">delete</button></a></div>');

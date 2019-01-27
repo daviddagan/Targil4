@@ -27,14 +27,14 @@
     "worker": [
       {
         "name": "beni",
-        "username": "pepsipo",
+        "phone": "654356543",
         "password": "1234",
         "salary": "3000",
         "active" : "true"
       },
       {
         "name": "binyamin",
-        "username": "popsipo",
+        "phone": "43543254322",
         "password": "1234",
         "salary": "5000",
         "active" : "true"

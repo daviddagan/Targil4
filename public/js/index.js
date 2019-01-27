@@ -54,7 +54,7 @@ function queryAndUpdate(url,cb){
             window.location.hash = url;
             progressAnimation.stop(mainBg,function () {
                 mainBg.html(result);
-                cb();
+                if(cb) cb();
             })
         }
     })
