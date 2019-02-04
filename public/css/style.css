@@ -42,7 +42,7 @@ footer {
 }
 
 .disabled1 {
-    text-decoration: line-through;
+display: none
 }
 
 #popupbox {
