@@ -54,22 +54,29 @@ $(".main-bg").on("click",".deleteUserButton",function (e) {
 $(".main-bg").on('click','.refresh-button',function (e) {
     let $this = $(this);
     let container = $(".list-users-container");
+    progressAnimation.start(container);
     $.ajax({
         url:"getUsers",
         success:function (result) {
             progressAnimation.stop(container,function () {
-
-                result.forEach(function (user) {
-                    let userView = '<li class="list-group-item d-flex justify-content-between align-items-center" style=" margin-bottom: 5px">\n' +
-                        '<h5>+user.role+<span class="editUserName">+user.name+</span></h5>' +
-                        '<div>' +
-                        '<button type="button" class="btn btn-outline-success btn-pill editUserButton">ערוך</button>' +
-                        '<button type="button" class="btn btn-danger deleteUserButton">הסר</button>' +
-                        '</div>' +
-                        '</li>'
-                    let userJQOj = $.parseHTML(userView);
-                    container.find(".list-group").append(userJQOj);
-                })
+                if (result){
+                    result.forEach(function (user) {
+                        let userView = '<li class="list-group-item d-flex justify-content-between align-items-center" style=" margin-bottom: 5px">\n' +
+                            '<h5>+user.role+<span class="editUserName">+user.name+</span></h5>' +
+                            '<div>' +
+                            '<button type="button" class="btn btn-outline-success btn-pill editUserButton">ערוך</button>' +
+                            '<button type="button" class="btn btn-danger deleteUserButton">הסר</button>' +
+                            '</div>' +
+                            '</li>'
+                        let $user = $.parseHTML(userView);
+                        if(!role ==="manager" &&user.role !=="client"){
+                            $user.find('.deleteUserButton').remove();
+                        }
+                        container.find(".list-group").append($user);
+                    })
+                }else{
+                    container.prepend("<p>there was error on the server...</p>")
+                }
             })
         },
         error: function (jqXHR, textStatus, errorThrown) {

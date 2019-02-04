@@ -7,7 +7,8 @@ let loginFlag = false,
     managerFlag = false,
     waitTime = 1000;
 function getAllUsers() {
-    return [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client).filter(function(user){return user.active});
+    let users = [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client).filter(function(user){return user.active});
+    return users;
 }
 function log() {
     console.log(...arguments);
@@ -42,9 +43,16 @@ function isManager(req, res, next) {
 }
 
 function getUsersWithoutPassword(users) {
-    cloneArr(users).filter(user => !user.role==='manager').map(function (user) {
-        user.password = "not allowed";
-    })
+    if(users[0]){
+        return cloneArr(users).filter(user => !user.role==='manager').map(function (user) {
+            user.password = "not allowed";
+        })
+    }else if(users.password){
+        let user = users;
+        user.password = 'not allowed';
+        return user;
+    }
+
 }
 
 function cloneArr(allUsers) {
@@ -490,13 +498,18 @@ app.get("/users",isLoggedIn , function (req, res) {
 app.get("/users/get/:id", function (req, res) {
     var userDetails = {};
     userDetails = getDetailsById(req.params.id);
+    if(!managerFlag){
+        getUsersWithoutPassword(userDetails);
+    }
     res.send(userDetails);
 })
 app.get("/getUsers",isLoggedIn , function (req, res) {
     if(managerFlag){
         res.send(getAllUsers());
     }else{
-        res.send(getUsersWithoutPassword(getAllUsers()))
+        let result = getUsersWithoutPassword(getAllUsers());
+        console.log(result);
+        res.send(result);
     }
 })
 
