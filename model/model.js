@@ -22,7 +22,6 @@ function modifyBooleans(arr){
     })
 }
 for (let arr in db.user){
-    console.log(typeof arr);
     if(db.user.hasOwnProperty(arr)){
         modifyBooleans(db.user[arr]);
     }

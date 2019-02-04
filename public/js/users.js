@@ -58,6 +58,7 @@ $(".main-bg").on('click','.refresh-button',function (e) {
         url:"getUsers",
         success:function (result) {
             progressAnimation.stop(container,function () {
+
                 result.forEach(function (user) {
                     let userView = '<li class="list-group-item d-flex justify-content-between align-items-center" style=" margin-bottom: 5px">\n' +
                         '<h5>+user.role+<span class="editUserName">+user.name+</span></h5>' +

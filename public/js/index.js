@@ -1,4 +1,4 @@
-
+let role = "";
 $(".tab-item-t4").on('click', function () {
     let $this = $(this);
     if ($this.hasClass("disabled1")) return;
@@ -75,7 +75,6 @@ $(function () {
         let username = $("#usernameF").val();
         let sendInfo = {username, password};
         login("hide");
-        insertParam("username",username);
         $.ajax({
             url: "login",
             type: "POST",
@@ -84,14 +83,17 @@ $(function () {
                 let tabs =$(".tab-item-t4");
                 usernameLocal =username;//TODO: after git merging add to all http bodies the username
                 if(result.message ==="manager"){
+                    role = "manager";
                     console.log(result,"logged");
                     $(tabs.get(1)).removeClass("disabled1");
 
                 }
                 else if(result.message ==="user"){
+                    role = "user";
                     console.log(result,"logged");
                 }
                 if(result.message!=="not user"){
+                    insertParam("username",username);
                     $(tabs.get(0)).removeClass("disabled1");
                     $(tabs.get(2)).removeClass("disabled1");
                     let logout =$("#logoutB");
@@ -175,8 +177,7 @@ $(document).ready(function(){
         aboutView();
     }
 });
-function insertParam(key, value)
-{
+function insertParam(key, value) {
     key = encodeURI(key); value = encodeURI(value);
 
     var kvp = document.location.search.substr(1).split('&');

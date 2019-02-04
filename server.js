@@ -4,7 +4,52 @@ let app = express();
 let bodyParser = require("body-parser");
 let db = require("./model/model.js");
 let loginFlag = false,
-    managerFlag = false;
+    managerFlag = false,
+    waitTime = 1000;
+function getAllUsers() {
+    return [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client).filter(function(user){return user.active});
+}
+function log() {
+    console.log(...arguments);
+}
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', function (req, res) {
+    let line = "Now We will present to you our students (): ";
+    res.render('index', {tagline: line, loginFlag, managerFlag});
+});
+
+function wait1Sec(req,res,next) {
+    setTimeout(next,waitTime);
+}
+app.use(wait1Sec);
+function isLoggedIn(req, res, next) {
+    if(loginFlag){
+        return next();
+    }else{
+        res.send({message:"user not authorized"});
+    }
+}
+
+function isManager(req, res, next) {
+    if(managerFlag){
+        return next();
+    }else{
+        res.send({message:"user not authorized"})
+    }
+}
+
+function getUsersWithoutPassword(users) {
+    cloneArr(users).filter(user => !user.role==='manager').map(function (user) {
+        user.password = "not allowed";
+    })
+}
+
+function cloneArr(allUsers) {
+    return JSON.parse(JSON.stringify(allUsers));
+}
 
 function getDetailsById(id) {
     let users = [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client);
@@ -16,18 +61,6 @@ function getDetailsById(id) {
     return tempUser;
 }
 
-function log() {
-    console.log(...arguments);
-}
-
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(express.static(path.join(__dirname, 'public')));
-app.get('/', function (req, res) {
-    let line = "Now We will present to you our students (): ";
-    res.render('index', {tagline: line, loginFlag, managerFlag});
-});
 function objIsExists(nameObj, name) {
 
     let leng;
@@ -261,7 +294,7 @@ function managerDel(id) {
     return 'false';
 
 }
-app.get('/userDel/:id', function (req, res) {
+app.get('/userDel/:id',isLoggedIn , function (req, res) {
 
     let success = 'false';
     let successFinish = 'false';
@@ -305,7 +338,7 @@ app.get('/userDel/:id', function (req, res) {
     else
         throw new Error('error');
 });
-app.post("/userUpd/:id", function (req, res) {
+app.post("/userUpd/:id",isLoggedIn , function (req, res) {
     let name = req.body.name;
     var id = req.params.id;
     var body = req.body;
@@ -344,7 +377,7 @@ app.post("/userUpd/:id", function (req, res) {
         throw new Error('error');
 
 });
-app.post("/userAdd", function (req, res) {
+app.post("/userAdd",isLoggedIn , function (req, res) {
     let name = req.body.name;
     let city = req.body.city;
     leng = db.branch.length;
@@ -359,7 +392,7 @@ app.post("/userAdd", function (req, res) {
         res.send({});
     }
 });
-app.post("/branchUpd/:id", function (req, res) {
+app.post("/branchUpd/:id",isLoggedIn , function (req, res) {
     let name = req.body.name;
     let city = req.body.city;
     var id = req.params.id;
@@ -384,7 +417,7 @@ app.post("/branchUpd/:id", function (req, res) {
         res.send({});
     }
 });
-app.post("/branchAdd", function (req, res) {
+app.post("/branchAdd",isLoggedIn , function (req, res) {
     let name = req.body.name;
     let city = req.body.city;
     leng = db.branch.length;
@@ -399,7 +432,7 @@ app.post("/branchAdd", function (req, res) {
         res.send({});
     }
 });
-app.get('/branchDel/:id', function (req, res) {
+app.get('/branchDel/:id',isLoggedIn , function (req, res) {
     var id = req.params.id;
     leng = db.branch.length;
     var seccuss = 'false';
@@ -451,7 +484,7 @@ app.get('/reset', function (req, res) {
 app.get("/contact", function (req, res) {
     res.render('contact');
 });
-app.get("/users", function (req, res) {
+app.get("/users",isLoggedIn , function (req, res) {
     res.render('users', {db,managerFlag,loginFlag});
 });
 app.get("/users/get/:id", function (req, res) {
@@ -459,11 +492,18 @@ app.get("/users/get/:id", function (req, res) {
     userDetails = getDetailsById(req.params.id);
     res.send(userDetails);
 })
+app.get("/getUsers",isLoggedIn , function (req, res) {
+    if(managerFlag){
+        res.send(getAllUsers());
+    }else{
+        res.send(getUsersWithoutPassword(getAllUsers()))
+    }
+})
 
 app.get("/flowers", function (req, res) {
     res.render("flowers", {flower: db.flower});
 });
-app.get("/branch", function (req, res) {
+app.get("/branch",isLoggedIn ,function (req, res) {
     let branch = db.branch;
     res.render('branch', {branches: branch});
 });
