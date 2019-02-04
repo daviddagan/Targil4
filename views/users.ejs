@@ -1,74 +1,83 @@
-<div class="row style-users "  style="padding: 20px 20px;margin-bottom: 2rem;">
-    <div class="col-sm-6 list-users-container"style="padding: 5px 20px;">
+<div class="row style-users " style="padding: 20px 20px;margin-bottom: 2rem;">
+    <div class="col-sm-6 list-users-container" style="padding: 5px 20px;">
         <ul class="list-group">
-        <%
-            let users = [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client);
-            users.forEach(function(user) { %>
-            <% include ./user %>
-            <%}); %>
+            <%
+            let users;
+            if (managerFlag) {
+                users = [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client).filter(function(user){return user.active});
+            } else if (loginFlag) {
+                users = [].concat(db.user.worker).concat(db.user.client).filter(function(user){return user.active});
+            }
+            users.forEach(function(user) {if(user.active){ %>
+                <% include ./user %>
+            <% }}); %>
         </ul>
-        
-    </div>
-    <div class="col-sm-6 divrtl d-flex justify-content-between edit-form-conatiner" style="background: ghostwhite" >
-      <!-- right side -->
-      <div> 
-          <p class="display-4"> ברוך הבא : shlomi </p>
-          <p> באפשרותך לערוך כל משתמש שתרצה <br> הרי אתה המנהל </p>
-          <!-- -----form----  -->
-          <form id="formUser">
-          <div  item-height="full-height" >
-              <div class="form-group">
-                <label>סוג המשתמש</label>
-                <select class="form-control" name="selectUser" id="selectUser" onchange="optionChanged()">
-                <option value="worker" selected>עובד</option>
-                <option value="manager">מנהל</option>
-                <option value="client">לקוח</option>
-                </select>
-              </div>
 
-              <div class="row ">
-                  <div class="col-md-6 col-sm-6">
-                      <div class="form-group">
-                          <label id="L1"><b>שם</b></label>
-                          <input type="text" id="one" name="one" class="form-control">
+    </div>
+    <div class="col-sm-6 divrtl d-flex justify-content-between edit-form-conatiner" style="background: ghostwhite">
+        <!-- right side -->
+        <div>
+            <% if(managerFlag){ %>
+                <p class="display-4"> ברוך הבא : shlomi </p>
+                <p> באפשרותך לערוך כל משתמש שתרצה <br> הרי אתה המנהל </p>
+                <!-- -----form----  -->
+            <% } %>
+            <form id="formUser">
+                <div item-height="full-height">
+                    <div class="form-group">
+                        <label>סוג המשתמש</label>
+                        <select class="form-control" name="selectUser" id="selectUser" onchange="optionChanged()">
+                            <option value="worker" selected>עובד</option>
+                            <option value="manager">מנהל</option>
+                            <option value="client">לקוח</option>
+                        </select>
+                    </div>
+
+                    <div class="row ">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label id="L1"><b>שם</b></label>
+                                <input type="text" id="one" name="one" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label id="L3"><b>סיסמא</b></label>
+                                <input type="text" id="three" name="three" class="form-control">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label  id="L3"><b>סיסמא</b></label>
-                            <input type="text" id="three" name="three" class="form-control">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label id="L2"><b>כינוי</b></label>
+                                <input type="text" id="two" name="two" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label id="L4"><b>משכורת</b></label>
+                                <input type="text" id="four" name="four" class="form-control">
+                            </div>
+                        </div>
+                        <div id="rankId" class="col-md-6 col-sm-6" style="display:none">
+                            <div class=" form-group">
+                                <label><b>דרגה</b></label>
+                                <input type="text" id="five" name="five" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group" style="margin-top: 20px ;">
+                                <button type="submit" onsubmit="addUser()" class="btn btn-primary btn-lg btn-block">
+                                    הוסף
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6">
-                    <div class="form-group">
-                        <label  id="L2"><b>כינוי</b></label>
-                        <input type="text" id="two" name="two" class="form-control">
-                     </div>
-                      <div class="form-group">
-                          <label  id="L4"><b>משכורת</b></label>
-                          <input type="text" id="four" name="four" class="form-control">
-                     </div>
-                  </div>
-                   <div id="rankId" class="col-md-6 col-sm-6" style="display:none">
-                      <div class=" form-group">
-                    <label><b>דרגה</b></label>
-                    <input type="text" id="five" name="five" class="form-control">
-                      </div>
-                  </div>
-                  <div class="col-md-6 col-sm-6">
-                       <div class="form-group" style="margin-top: 20px ;">
-                        <button type="submit" onsubmit="addUser()" class="btn btn-primary btn-lg btn-block">הוסף</button>	
-                       </div>
-                  </div>
-              </div>
-         </div>
-         </form>
-          <!-- -----end form----       -->
-      </div>
+                </div>
+            </form>
+            <!-- -----end form----       -->
+        </div>
 
-      <!-- left side -->
-      <div style="padding-top: 10px">
-          <button type="button" class="btn btn-success refresh-button">רענן</button>
-      </div>
-  </div>
+        <!-- left side -->
+        <div style="padding-top: 10px">
+            <button type="button" class="btn btn-success refresh-button">רענן</button>
+        </div>
+    </div>
 </div>
 
 

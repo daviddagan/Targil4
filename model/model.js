@@ -16,4 +16,15 @@ db.user.supplier.map(function(obj){
     return obj;
 });
 
+function modifyBooleans(arr){
+    arr.forEach(function (user) {
+        user.active= (user.active ==='true');
+    })
+}
+for (let arr in db.user){
+    console.log(typeof arr);
+    if(db.user.hasOwnProperty(arr)){
+        modifyBooleans(db.user[arr]);
+    }
+}
 module.exports = db;

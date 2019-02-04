@@ -5,7 +5,22 @@ let bodyParser = require("body-parser");
 let db = require("./model/model.js");
 let loginFlag = false,
     managerFlag = false;
-
+function isLoggedIn(req, res, next) {
+    if(loginFlag){
+        return next();
+    }else{
+        console.log("user not authorized");
+        res.send({message:"user not authorized"});
+    }
+}
+console.log(typeof db.user.manager[0].active);
+function isManager(req, res, next) {
+    if(managerFlag){
+        return next();
+    }else{
+        res.send({message:"user not authorized"})
+    }
+}
 function getDetailsById(id) {
     let users = [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client);
     let tempUser;
@@ -22,10 +37,6 @@ function log(){
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
-app.get('/', function (req, res) {
-    let line = "Now We will present to you our students (): ";
-    res.render('index', {tagline: line, loginFlag, managerFlag});
-});
 function objIsExists(nameObj, name) {
 
     let leng;
@@ -239,7 +250,11 @@ function managerDel(id) {
     return 'false';
 
 }
-app.post('/userDel/:id', function (req, res) {
+app.get('/', function (req, res) {
+    let line = "Now We will present to you our students (): ";
+    res.render('index', {tagline: line, loginFlag, managerFlag});
+});
+app.post('/userDel/:id',isLoggedIn , function (req, res) {
 
     let success ='false';
     var id = req.params.id;
@@ -272,7 +287,7 @@ app.post('/userDel/:id', function (req, res) {
     else
         throw new Error('error');
 });
-app.post("/userUpd/:id", function (req, res) {
+app.post("/userUpd/:id",isLoggedIn , function (req, res) {
     let name = req.body.name;
     var id = req.params.id;
     var body = req.body;
@@ -311,7 +326,7 @@ app.post("/userUpd/:id", function (req, res) {
         throw new Error('error');
 
 });
-app.post("/userAdd", function (req, res) {
+app.post("/userAdd",isLoggedIn , function (req, res) {
     let name = req.body.name;
     let city = req.body.city;
     leng = db.branch.length;
@@ -326,7 +341,7 @@ app.post("/userAdd", function (req, res) {
         res.send({});
     }
 });
-app.post("/branchUpd/:id", function (req, res) {
+app.post("/branchUpd/:id",isLoggedIn , function (req, res) {
     let name = req.body.name;
     let city = req.body.city;
     var id = req.params.id;
@@ -351,7 +366,7 @@ app.post("/branchUpd/:id", function (req, res) {
         res.send({});
     }
 });
-app.post("/branchAdd", function (req, res) {
+app.post("/branchAdd",isLoggedIn , function (req, res) {
     let name = req.body.name;
     let city = req.body.city;
     leng = db.branch.length;
@@ -366,7 +381,7 @@ app.post("/branchAdd", function (req, res) {
         res.send({});
     }
 });
-app.get('/branchDel/:id', function (req, res) {
+app.get('/branchDel/:id',isLoggedIn , function (req, res) {
     var id = req.params.id;
     leng = db.branch.length;
     var seccuss = 'false';
@@ -418,10 +433,10 @@ app.get('/reset', function (req, res) {
 app.get("/contact", function (req, res) {
     res.render('contact');
 });
-app.get("/users", function (req, res) {
-    res.render('users', {db});
+app.get("/users",isLoggedIn ,function (req, res) {
+    res.render('users', {db,loginFlag,managerFlag});
 });
-app.get("/users/get/:id", function (req, res) {
+app.get("/users/get/:id",isLoggedIn , function (req, res) {
     var userDetails = {};
     userDetails = getDetailsById(req.params.id);
     res.send(userDetails);
@@ -430,7 +445,7 @@ app.get("/users/get/:id", function (req, res) {
 app.get("/flowers", function (req, res) {
     res.render("flowers", {flower: db.flower});
 });
-app.get("/branch", function (req, res) {
+app.get("/branch",isLoggedIn , function (req, res) {
     let branch = db.branch;
     res.render('branch', {branches: branch});
 });

@@ -1,3 +1,4 @@
+
 $(".tab-item-t4").on('click', function () {
     let $this = $(this);
     if ($this.hasClass("disabled1")) return;
