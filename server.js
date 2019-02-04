@@ -271,6 +271,7 @@ app.get('/userDel/:id', function (req, res) {
 
     //let role = req.body.role;
 
+    if(managerFlag===true){
     ObjExists = objIsExists("manager", id);
     if (ObjExists !== 'false')
         success = managerDel(id);
@@ -283,7 +284,7 @@ app.get('/userDel/:id', function (req, res) {
         success = workerDel(id);
     if (success === 'true')
         successFinish = success;
-
+    }
 
     ObjExists = objIsExists("supplier", id);
     if (ObjExists !== 'false')
@@ -291,12 +292,12 @@ app.get('/userDel/:id', function (req, res) {
     if (success === 'true')
         successFinish = success;
 
-
     ObjExists = objIsExists("client", id);
     if (ObjExists !== 'false')
         success = clientDel(id);
     if (success === 'true')
         successFinish = success;
+
 
     if (successFinish === 'true')
         res.send({});
