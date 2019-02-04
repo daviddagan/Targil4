@@ -5,22 +5,7 @@ let bodyParser = require("body-parser");
 let db = require("./model/model.js");
 let loginFlag = false,
     managerFlag = false;
-function isLoggedIn(req, res, next) {
-    if(loginFlag){
-        return next();
-    }else{
-        console.log("user not authorized");
-        res.send({message:"user not authorized"});
-    }
-}
-console.log(typeof db.user.manager[0].active);
-function isManager(req, res, next) {
-    if(managerFlag){
-        return next();
-    }else{
-        res.send({message:"user not authorized"})
-    }
-}
+
 function getDetailsById(id) {
     let users = [].concat(db.user.manager).concat(db.user.worker).concat(db.user.client);
     let tempUser;
@@ -30,13 +15,19 @@ function getDetailsById(id) {
     });
     return tempUser;
 }
-function log(){
+
+function log() {
     console.log(...arguments);
 }
+
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', function (req, res) {
+    let line = "Now We will present to you our students (): ";
+    res.render('index', {tagline: line, loginFlag, managerFlag});
+});
 function objIsExists(nameObj, name) {
 
     let leng;
@@ -56,8 +47,7 @@ function objIsExists(nameObj, name) {
             }
         }
         return 'false';
-    }
-    else if (nameObj === "worker") {
+    } else if (nameObj === "worker") {
         leng = db.user.worker.length;
         for (var i = 0; i < leng; i++) {
             if (db.user.worker[i].name === name) {
@@ -65,8 +55,7 @@ function objIsExists(nameObj, name) {
             }
         }
         return 'false';
-    }
-    else if (nameObj === "supplier") {
+    } else if (nameObj === "supplier") {
         leng = db.user.supplier.length;
         for (var i = 0; i < leng; i++) {
             if (db.user.supplier[i].name === name) {
@@ -77,7 +66,8 @@ function objIsExists(nameObj, name) {
     }
 
 }
-function clientUpdate(id,user) {
+
+function clientUpdate(id, user) {
 
     let name = user.name;
     let password = user.password;
@@ -85,22 +75,24 @@ function clientUpdate(id,user) {
     let phone = user.phone;
 
     let leng = db.user.client.length;
+    if (leng >= 1) {
+        for (var i = 0; i < leng; i++) {
+            if (db.user.client[i].name === id) {
+                db.user.client[i].password = password;
+                db.user.client[i].name = name;
+                db.user.client[i].favorite = favorite;
+                db.user.client[i].phone = phone;
+                db.user.client[i].active = true;
+                return 'true';
 
-    for (var i = 0; i < leng; i++) {
-        if (db.user.client[i].name === id) {
-            db.user.client[i].password = password;
-            db.user.client[i].name = name;
-            db.user.client[i].favorite = favorite;
-            db.user.client[i].phone = phone;
-            db.user.client[i].active='true';
-            return 'true';
-
+            }
         }
     }
     return 'false';
 
 }
-function supplierUpdate(id,user) {
+
+function supplierUpdate(id, user) {
 
     let name = user.name;
     let company = user.company;
@@ -109,48 +101,53 @@ function supplierUpdate(id,user) {
 
 
     let leng = db.user.supplier.length;
+    if (leng >= 1) {
+        for (var i = 0; i < leng; i++) {
+            if (db.user.supplier[i].name === id) {
+                db.user.supplier[i].company = company;
+                db.user.supplier[i].name = name;
+                db.user.supplier[i].rating = rating;
+                db.user.supplier[i].frequency = frequency;
+                db.user.supplier[i].active = true;
+                return 'true';
 
-    for (var i = 0; i < leng; i++) {
-        if (db.user.supplier[i].name === id) {
-            db.user.supplier[i].company = company;
-            db.user.supplier[i].name = name;
-            db.user.supplier[i].rating = rating;
-            db.user.supplier[i].frequency = frequency;
-            db.user.supplier[i].active='true';
-            return 'true';
-
+            }
         }
     }
     return 'false';
 
 }
-function workerUpdate(id,user) {
+
+function workerUpdate(id, user) {
 
     let name = user.name;
     let password = user.password;
     let phone = user.phone;
     let salary = user.salary;
-    log("name" , name);
-    log("password" , password);
-    log("phone" , phone);
+    log("name", name);
+    log("password", password);
+    log("phone", phone);
 
     let leng = db.user.worker.length;
-    log("in before");
-    for (var i = 0; i < leng; i++) {
-        if (db.user.worker[i].name === id) {
-            log("in name:",name);
-            db.user.worker[i].name = name;
-            db.user.worker[i].password = password;
-            db.user.worker[i].phone = phone;
-            db.user.worker[i].salary = salary;
-            db.user.worker[i].active='true';
-            return 'true';
+    if (leng >= 1) {
+        log("in before");
+        for (var i = 0; i < leng; i++) {
+            if (db.user.worker[i].name === id) {
+                log("in name:", name);
+                db.user.worker[i].name = name;
+                db.user.worker[i].password = password;
+                db.user.worker[i].phone = phone;
+                db.user.worker[i].salary = salary;
+                db.user.worker[i].active = true;
+                return 'true';
 
+            }
         }
     }
     return 'false';
 }
-function managerUpdate(id,user) {
+
+function managerUpdate(id, user) {
 
     let name = user.name;
     let password = user.password;
@@ -159,135 +156,155 @@ function managerUpdate(id,user) {
     let rank = user.rank;
 
     let leng = db.user.manager.length;
+    if (leng >= 1) {
+        for (var i = 0; i < leng; i++) {
+            if (db.user.manager[i].name === id) {
+                db.user.manager[i].name = name;
+                db.user.manager[i].password = password;
+                db.user.manager[i].branch = branch;
+                db.user.manager[i].age = age;
+                db.user.manager[i].rank = rank;
+                db.user.manager[i].active = true;
+                return 'true';
 
-    for (var i = 0; i < leng; i++) {
-        if (db.user.manager[i].name === id) {
-            db.user.manager[i].name = name;
-            db.user.manager[i].password = password;
-            db.user.manager[i].branch = branch;
-            db.user.manager[i].age = age;
-            db.user.manager[i].rank = rank;
-            db.user.manager[i].active='true';
-            return 'true';
-
+            }
         }
     }
     return 'false';
 
 }
+
 function clientDel(id) {
     let name = id;
     let leng = db.user.client.length;
-    var success = 'false';
-    for (var i = 0; i < leng; i++) {
-        if (db.client[i].name === name) {
-            db.client[i].active = 'false';
-            success = 'true';
-        }
-        if (success === 'true') {
-            return 'true';
+    if (leng >= 1) {
+        var success = 'false';
+        for (var i = 0; i < leng; i++) {
+            if (db.user.client[i].name === name) {
+                db.user.client[i].active = false;
+                success = 'true';
+            }
+            if (success === 'true') {
+                return 'true';
+            }
         }
     }
     return 'false';
 
 }
+
 function supplierDel(id) {
 
     let name = id;
     let leng = db.user.supplier.length;
-    var seccuss = 'false';
-    for (var i = 0; i < leng; i++) {
-        if (db.supplier[i].name === name) {
-            db.supplier[i].active = 'false';
-            seccuss = 'true';
-        }
-        if (seccuss === 'true') {
-            return 'true';
+    if (leng >= 1) {
+        var seccuss = 'false';
+        for (var i = 0; i < leng; i++) {
+            if (db.user.supplier[i].name === name) {
+                db.user.supplier[i].active = false;
+                seccuss = 'true';
+            }
+            if (seccuss === 'true') {
+                return 'true';
 
+            }
         }
     }
     return 'false';
 
 
 }
+
 function workerDel(id) {
 
     log('here');
     let name = id;
     let leng = db.user.worker.length;
-    var success = 'false';
-    for (var i = 0; i < leng; i++) {
-        if (db.worker[i].name === name) {
-            db.worker[i].active = 'false';
-            success = 'true';
-        }
-        if (success === 'true') {
-            return 'true';
+    if (leng >= 1) {
+        var success = 'false';
+        log('name: ', id);
+        for (var i = 0; i < leng; i++) {
+            if (db.user.worker[i].name === name) {
+                log('in');
+                db.user.worker[i].active = false;
+                success = 'true';
+            }
+            if (success === 'true') {
+                return 'true';
 
 
+            }
         }
     }
-
     return 'false';
 }
+
 function managerDel(id) {
 
     log("first in");
     let name = id;
     let leng = db.user.manager.length;
-    var seccuss = 'false';
-    for (var i = 0; i < leng; i++) {
-        if (db.manager[i].name === name) {
-            log("in in");
-            db.manager[i].active = 'false';
-            seccuss = 'true';
-        }
-        if (seccuss === 'true') {
-            return 'true';
+    if (leng >= 1) {
+        var seccuss = 'false';
+        for (var i = 0; i < leng; i++) {
+            if (db.user.manager[i].name === name) {
+                log("in in");
+                db.user.manager[i].active = false;
+                seccuss = 'true';
+            }
+            if (seccuss === 'true') {
+                return 'true';
 
+            }
         }
     }
     return 'false';
 
 }
-app.get('/', function (req, res) {
-    let line = "Now We will present to you our students (): ";
-    res.render('index', {tagline: line, loginFlag, managerFlag});
-});
-app.post('/userDel/:id',isLoggedIn , function (req, res) {
+app.get('/userDel/:id', function (req, res) {
 
-    let success ='false';
+    let success = 'false';
+    let successFinish = 'false';
+
     var id = req.params.id;
     var ObjExists = 'false';
-    let role = req.body.role;
-    if (role === "manager") {
-        ObjExists = objIsExists("manager", id);
-        if (ObjExists !== 'false')
-            success = managerDel(id);
 
-    } else if (role === "worker") {
-        ObjExists = objIsExists("worker", id);
-        if (ObjExists !== 'false')
-            success = workerDel(id);
-    } else if (role === "supplier") {
-        ObjExists = objIsExists("supplier", id);
-        if (ObjExists !== 'false')
-            success =  supplierDel(id);
-    }
-    else if (role === "client") {
-        ObjExists = objIsExists("client", id);
-        if (ObjExists === 'false')
-            success = clientDel(id);
-    }
+    //let role = req.body.role;
 
-    if(success==='true')
-    {
+    ObjExists = objIsExists("manager", id);
+    if (ObjExists !== 'false')
+        success = managerDel(id);
+    if (success === 'true')
+        successFinish = success;
+
+
+    ObjExists = objIsExists("worker", id);
+    if (ObjExists !== 'false')
+        success = workerDel(id);
+    if (success === 'true')
+        successFinish = success;
+
+
+    ObjExists = objIsExists("supplier", id);
+    if (ObjExists !== 'false')
+        success = supplierDel(id);
+    if (success === 'true')
+        successFinish = success;
+
+
+    ObjExists = objIsExists("client", id);
+    if (ObjExists !== 'false')
+        success = clientDel(id);
+    if (success === 'true')
+        successFinish = success;
+
+    if (successFinish === 'true')
         res.send({});
-    }
+
     else
         throw new Error('error');
 });
-app.post("/userUpd/:id",isLoggedIn , function (req, res) {
+app.post("/userUpd/:id", function (req, res) {
     let name = req.body.name;
     var id = req.params.id;
     var body = req.body;
@@ -326,7 +343,7 @@ app.post("/userUpd/:id",isLoggedIn , function (req, res) {
         throw new Error('error');
 
 });
-app.post("/userAdd",isLoggedIn , function (req, res) {
+app.post("/userAdd", function (req, res) {
     let name = req.body.name;
     let city = req.body.city;
     leng = db.branch.length;
@@ -341,7 +358,7 @@ app.post("/userAdd",isLoggedIn , function (req, res) {
         res.send({});
     }
 });
-app.post("/branchUpd/:id",isLoggedIn , function (req, res) {
+app.post("/branchUpd/:id", function (req, res) {
     let name = req.body.name;
     let city = req.body.city;
     var id = req.params.id;
@@ -366,7 +383,7 @@ app.post("/branchUpd/:id",isLoggedIn , function (req, res) {
         res.send({});
     }
 });
-app.post("/branchAdd",isLoggedIn , function (req, res) {
+app.post("/branchAdd", function (req, res) {
     let name = req.body.name;
     let city = req.body.city;
     leng = db.branch.length;
@@ -381,7 +398,7 @@ app.post("/branchAdd",isLoggedIn , function (req, res) {
         res.send({});
     }
 });
-app.get('/branchDel/:id',isLoggedIn , function (req, res) {
+app.get('/branchDel/:id', function (req, res) {
     var id = req.params.id;
     leng = db.branch.length;
     var seccuss = 'false';
@@ -433,10 +450,10 @@ app.get('/reset', function (req, res) {
 app.get("/contact", function (req, res) {
     res.render('contact');
 });
-app.get("/users",isLoggedIn ,function (req, res) {
-    res.render('users', {db,loginFlag,managerFlag});
+app.get("/users", function (req, res) {
+    res.render('users', {db,managerFlag,loginFlag});
 });
-app.get("/users/get/:id",isLoggedIn , function (req, res) {
+app.get("/users/get/:id", function (req, res) {
     var userDetails = {};
     userDetails = getDetailsById(req.params.id);
     res.send(userDetails);
@@ -445,7 +462,7 @@ app.get("/users/get/:id",isLoggedIn , function (req, res) {
 app.get("/flowers", function (req, res) {
     res.render("flowers", {flower: db.flower});
 });
-app.get("/branch",isLoggedIn , function (req, res) {
+app.get("/branch", function (req, res) {
     let branch = db.branch;
     res.render('branch', {branches: branch});
 });
